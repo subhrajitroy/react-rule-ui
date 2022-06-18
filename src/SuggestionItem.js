@@ -5,12 +5,16 @@ class SuggestionItem extends React.Component{
         super(props)
         this.style = props.style;
         this.value = props.value;
-        this.handleClick = props.handleClick;
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(e){
+        this.props.onSuggestionClick(this.props.value);
     }
 
     render(){
         return ( 
-        <div style={this.style} onClick={this.handleClick}>
+        <div style={this.style} onClick={this.handleClick} >
             <span>{this.value}</span>
         </div>)
     }

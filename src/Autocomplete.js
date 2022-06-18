@@ -21,7 +21,7 @@ class Autocomplete extends React.Component{
         this.setState({value:e.target.value})
         console.log(value);
         let newelement = <SuggestionItem style={this.autoCompleteStyle} 
-                                onClick={this.handleSuggestionClick}
+                                onSuggestionClick={this.handleSuggestionClick}
                                 value={value} key={value}/>
         this.setState(prevState=>({suggestionList:[...prevState.suggestionList,newelement]}))
     }
@@ -35,9 +35,8 @@ class Autocomplete extends React.Component{
         }
     }
 
-    handleSuggestionClick(e){
-        console.log(e.target)
-        this.setState({value:e.target.value});
+    handleSuggestionClick(suggestedValue){
+        this.setState({value:suggestedValue});
     }
 
     
