@@ -1,5 +1,7 @@
 import React from "react";
-import SuggestionItem  from "./SuggestionItem"
+import SuggestionItem  from "./SuggestionItem";
+import { flatten } from 'flatten-anything';
+
 
 class Autocomplete extends React.Component{
     constructor(props){
@@ -15,15 +17,36 @@ class Autocomplete extends React.Component{
        this.handleChange = this.handleChange.bind(this);
        this.handleFocus = this.handleFocus.bind(this);
        this.handleSuggestionClick = this.handleSuggestionClick.bind(this);
+       
     }
+
+    componentDidMount(){
+        fetch("http://localhost:8080/api/v1/address/a1")
+        .then(r => r.json())
+        .then(r => flatten(r))
+        .then(r => {
+            this.setState({"suggestions":Object.keys(r)})    
+            console.log(r)
+        }
+        )
+    }
+
     handleChange(e){
         let value = e.target.value;
         this.setState({value:e.target.value})
         console.log(value);
-        let newelement = <SuggestionItem style={this.autoCompleteStyle} 
+        let keys = this.state.suggestions;
+        let filteredKeys = keys.filter(k => k.startsWith(value));
+        console.log(filteredKeys);
+        let newSuggestions = [];
+        for(let idx in filteredKeys){
+            let newelement = <SuggestionItem style={this.autoCompleteStyle} 
                                 onSuggestionClick={this.handleSuggestionClick}
-                                value={value} key={value}/>
-        this.setState(prevState=>({suggestionList:[...prevState.suggestionList,newelement]}))
+                                value={filteredKeys[idx]} key={filteredKeys[idx]}/>
+            newSuggestions.push(newelement);
+        }
+        
+        this.setState({suggestionList:newSuggestions})
     }
 
     handleFocus(e){
