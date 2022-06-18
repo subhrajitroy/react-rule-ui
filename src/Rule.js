@@ -6,14 +6,11 @@ class Rule extends React.Component{
     constructor(props){
         super(props)
         this.handleDeleteRule = this.handleDeleteRule.bind(this)
-        this.cKey = this.props.cKey;
-        this.id = this.props.cKey;
+        this.id = this.props.id;
     }
 
     handleDeleteRule(e){
-        console.log("$ key is " + this.key)
-        console.log("$ key is " + this.props.cKey)
-        this.props.deleteRule(this.props.cKey);
+        this.props.deleteRule(this);
     }
     
     render(){
