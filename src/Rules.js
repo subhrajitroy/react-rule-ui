@@ -18,7 +18,11 @@ class Rules extends React.Component{
             rules: [...this.state.rules, <Rule key={key} id={key} deleteRule={this.handleRuleDelete}/>],
           });
     }
-
+/**
+ * 
+ * @param {*} ruleToDelete 
+ * Not sure why we can access id of rule passed (but not its key) but not of those in the list.
+ */
     handleRuleDelete(ruleToDelete){
         console.log(ruleToDelete.id);
         this.state.rules.forEach(r => console.log(r.key));
