@@ -7,7 +7,63 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html,body{
+  width: 100vw;
+  height: 100vh;
+  margin: 1px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+body{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 5fr 20fr;
+}
+
+.header{
+  background-color: rgb(232, 154, 52);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: 1px black solid;
+  display: grid;
+  color: aliceblue;
+}
+
+.root{
+  max-width: 80%;
+  margin: auto;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  
+}
+.left{
+  width: 50%;
+}
+
+.rule{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  /* border: 1px black solid; */
+  gap: 5%;
+}
+
+.rule_row{
+  display: grid;
+  grid-template-columns: 1fr;
+  /* border: 1px black solid; */
+  gap: 1%;
+  row-gap: 3%;
+}
+
+.add_button{
+  margin-right: 10px;
+  margin-bottom: 10px;
 }

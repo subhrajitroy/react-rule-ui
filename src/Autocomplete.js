@@ -59,7 +59,7 @@ class Autocomplete extends React.Component{
     }
 
     handleSuggestionClick(suggestedValue){
-        this.setState({value:suggestedValue});
+        this.setState({value:suggestedValue,suggestionList:[]});
     }
 
     
@@ -68,6 +68,7 @@ class Autocomplete extends React.Component{
             <div className="container">
                 <div className="left">
                     <input type='text' 
+                    size={50}
                     onChange={this.handleChange} 
                     onFocus={this.handleFocus}
                     value={this.state.value}/>

@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Autocomplete  from './Autocomplete';
+import Rules from './Rules';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Autocomplete value="Type here" />
+     <Rules/>
   </React.StrictMode>
 );
 
