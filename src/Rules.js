@@ -1,22 +1,50 @@
 import React from "react";
 import Rule from "./Rule";
 import { v4 as uuidv4 } from 'uuid';
+import {_} from "./JsonUtils";
+
 
 class Rules extends React.Component{
     constructor(props){
         super(props)
         this.handleRuleAdd = this.handleRuleAdd.bind(this);
         this.handleRuleDelete = this.handleRuleDelete.bind(this);
-
+        this.handleSaveRule = this.handleSaveRule.bind(this);
+        this.applyRule = this.applyRule.bind(this);
+        this.rulesList = [];
         let key = uuidv4();
-        this.state = {rules:[<Rule key={key} id={key} deleteRule={this.handleRuleDelete}/>],count:1};
+        this.state = {rules:[<Rule key={key} id={key} saveRule={this.handleSaveRule} 
+            deleteRule={this.handleRuleDelete}/>],savedRules:[],rightPaneValue:"Hello World",leftPaneValue:"Add json to test"};
     }
 
     handleRuleAdd(e){
         let key = uuidv4();
         this.setState({
-            rules: [...this.state.rules, <Rule key={key} id={key} deleteRule={this.handleRuleDelete}/>],
+            rules: [...this.state.rules, <Rule key={key} id={key} saveRule={this.handleSaveRule} deleteRule={this.handleRuleDelete}/>],
           });
+    }
+
+    handleSaveRule(rule){
+        console.log("Saving rule " + JSON.stringify(rule));
+        this.setState({
+            savedRules: [...this.state.savedRules,rule],
+          });
+        this.rulesList.push(rule)
+        
+        console.log(JSON.stringify(this.rulesList));
+    }
+
+    handleLeftPaneValueChange(e){
+        this.setState({leftPaneValue:e.target.value})
+    }
+
+    applyRule(){
+        let rule = this.rulesList[0];
+        let jsonValue = JSON.parse(document.getElementById("jsonInput").value);
+        let valToSet = _.get(jsonValue,rule.left);
+        let mappedValue = _.set({},rule.right,valToSet);
+        console.log(mappedValue);
+        this.setState({rightPaneValue:JSON.stringify(mappedValue)});
     }
 /**
  * 
@@ -38,6 +66,15 @@ class Rules extends React.Component{
                 <button name='add' className='add_button' onClick={this.handleRuleAdd}>Add</button>
                 <div className='rule_row'>
                     {this.state.rules}
+                </div>
+                <div className="test">
+                    <div className="left_pane">
+                        <textarea id="jsonInput"></textarea>
+                        <button onClick={this.applyRule}>Apply</button>
+                    </div>
+                    <div className="right_pane">
+                        <textarea value={this.state.rightPaneValue} readOnly></textarea>
+                    </div>
                 </div>
             </div>
             

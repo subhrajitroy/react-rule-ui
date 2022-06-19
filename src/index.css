@@ -50,9 +50,9 @@ body{
 
 .rule{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   /* border: 1px black solid; */
-  gap: 5%;
+  gap: 2%;
 }
 
 .rule_row{
@@ -66,4 +66,24 @@ body{
 .add_button{
   margin-right: 10px;
   margin-bottom: 10px;
+}
+
+.test{
+  
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 10px;
+  height: 100px;
+  column-gap: 5px;
+}
+
+.left_pane,.right_pane{
+  height: 100%;
+  background-color: blanchedalmond;
+}
+
+textarea{
+  height: 100%;
+  width: 90%;
 }

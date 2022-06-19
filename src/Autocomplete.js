@@ -60,6 +60,7 @@ class Autocomplete extends React.Component{
 
     handleSuggestionClick(suggestedValue){
         this.setState({value:suggestedValue,suggestionList:[]});
+        this.props.callback(this.props.position,suggestedValue);
     }
 
     
