@@ -39,13 +39,22 @@ class Rules extends React.Component{
     }
 
     applyRule(){
-        let rule = this.rulesList[0];
+        
         let jsonValue = JSON.parse(document.getElementById("jsonInput").value);
-        let valToSet = _.get(jsonValue,rule.left);
-        let mappedValue = _.set({},rule.right,valToSet);
+        let mappedValue = {};
+        for(let i in this.rulesList){
+            let rule = this.rulesList[i];
+            let valToSet = _.get(jsonValue,rule.left);
+            console.log("Old value " + JSON.stringify(mappedValue))
+            mappedValue = _.set(mappedValue,rule.right,valToSet);
+            console.log("New value " + JSON.stringify(mappedValue))
+        }
+        
         console.log(mappedValue);
         this.setState({rightPaneValue:JSON.stringify(mappedValue)});
     }
+
+    
 /**
  * 
  * @param {*} ruleToDelete 

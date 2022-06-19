@@ -1,3 +1,5 @@
+import merge from 'deepmerge-json';
+
 class JsonUtils {
     get(jsonObj,path, delimiter = '.') {
         if(!jsonObj){
@@ -25,7 +27,7 @@ class JsonUtils {
         valueToSet = obj;
     }
 
-    return Object.assign(jsonObj,valueToSet);
+    return merge(jsonObj,valueToSet);
    }
 }
 
