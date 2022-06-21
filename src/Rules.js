@@ -2,7 +2,8 @@ import React from "react";
 import Rule from "./Rule";
 import { v4 as uuidv4 } from 'uuid';
 import {_} from "./JsonUtils";
-import Quesions from "./Questions";
+import Products from "./Products";
+import Questions from './Questions'
 
 
 class Rules extends React.Component{
@@ -13,10 +14,11 @@ class Rules extends React.Component{
         this.handleSaveRule = this.handleSaveRule.bind(this);
         this.applyRule = this.applyRule.bind(this);
         this.questionsSelected = this.questionsSelected.bind(this);
+        this.handleProductSelection = this.handleProductSelection.bind(this);
         this.rulesList = [];
         
         this.state = {savedRules:[],
-            rightPaneValue:"Hello World",leftPaneValue:"Add json to test",schema:{}};
+            rightPaneValue:"Hello World",leftPaneValue:"Add json to test",schema:{},selectedProduct:0};
     }
 
     componentDidMount(){
@@ -63,7 +65,6 @@ class Rules extends React.Component{
     }
 
     questionsSelected(json){
-        console.log("I am here");
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -73,8 +74,13 @@ class Rules extends React.Component{
             .then(response => console.log(response));
         this.setState({schema:json});
         let e = new CustomEvent("questionSelected",{detail:{data:json}});
-        // console.log(JSON.stringify(e.isTrusted));
         document.dispatchEvent(e);
+    }
+
+    handleProductSelection(productId){
+        console.log("Product = " + productId);
+        this.setState({selectedProduct:productId});
+        console.log("This " + this.state.selectedProduct);
     }
 /**
  * 
@@ -93,7 +99,8 @@ class Rules extends React.Component{
     render(){
         return (
             <div>
-                <Quesions callback={this.questionsSelected}/>
+                <Products callback={this.handleProductSelection}/>
+                <Questions selectedProduct={567} callback={this.questionsSelected}/>
                 <button name='add' className='add_button' onClick={this.handleRuleAdd}>Add</button>
                 <div className='rule_row'>
                     {this.state.rules}

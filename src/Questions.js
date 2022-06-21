@@ -13,12 +13,13 @@ class Question extends React.Component{
 
     render(){
         return (<div>
-            <input type={"text"} value={this.props.question} readOnly/>
-            <input type={"text"} value={this.props.questionType} readOnly/>
-            <input value={this.props.path} type={"checkbox"} onChange={this.questionSelected}/>
+            <input size={50} type={"text"} value={this.props.question} readOnly/>
+            <input size={50} type={"text"} value={this.props.questionType} readOnly/>
+            <input size={50} value={this.props.path} type={"checkbox"} onChange={this.questionSelected}/>
         </div>)
 
     }
+    
 }
 
 class Quesions extends React.Component{
@@ -26,12 +27,26 @@ class Quesions extends React.Component{
         super(props);
         this.callback = this.callback.bind(this);
         this.paths = [];
-        this.schema = {}
-        this.state = {questions:[
-        <Question key={1} callback={this.callback} question={"Name ?"} questionType={"text"} path="root.name"/>,
-        <Question key={10} callback={this.callback} question={"Email ?"} questionType={"text"} path="root.contact.email"/>,
-        <Question key={2} callback={this.callback} question={"Age ?"} questionType={"text"} path="root.age"/>,
-        <Question key={3} callback={this.callback} question={"Phone ?"} questionType={"text"} path="root.contact.phone"/>]}
+        this.schema = {};
+        this.state = {questions:[],selectedProduct:this.props.selectedProduct};
+    }
+
+    componentDidMount(){
+        let url = "http://localhost:8080/api/v2/questions/" +  this.state.selectedProduct;
+        console.log("Selected product is " + this.state.selectedProduct);
+
+        fetch(url).then(r => r.json())
+        .then(r => {
+             console.log("questions are " + JSON.stringify(r));
+             let questionList = [];
+             let qs = r.questions;
+             console.log("Questions are " + JSON.stringify(r));
+             for(let i in qs){
+                 let q = qs[i];
+                 questionList.push(<Question key={q.id} callback={this.callback} question={q.questionText} questionType={q.type} path={q.path}/>);
+             }
+             this.setState({questions:questionList});
+         });
     }
 
     callback(path,seleted){
@@ -43,15 +58,17 @@ class Quesions extends React.Component{
         }
         this.schema = {};
         this.paths.forEach(p => this.schema = _.set(this.schema,p,""));
-        console.log("<>" + JSON.stringify(this.schema));
         this.props.callback(this.schema);
     }
 
     render(){
-        return (<div className="questions">
-                <div>{this.state.questions}</div>
-                
-            </div>);
+        return (
+            <div>
+                <div className="questions">
+                    <div>{this.state.questions}</div>
+                </div>
+            </div>
+        );
     }
 }
 
