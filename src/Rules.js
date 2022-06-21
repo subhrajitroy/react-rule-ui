@@ -99,8 +99,7 @@ class Rules extends React.Component{
     render(){
         return (
             <div>
-                <Products callback={this.handleProductSelection}/>
-                <Questions selectedProduct={567} callback={this.questionsSelected}/>
+                <Questions callback={this.questionsSelected}/>
                 <button name='add' className='add_button' onClick={this.handleRuleAdd}>Add</button>
                 <div className='rule_row'>
                     {this.state.rules}
