@@ -87,3 +87,8 @@ textarea{
   height: 100%;
   width: 90%;
 }
+
+.questions{
+  margin-bottom: 20px;
+  border: 1px solid black;
+}

@@ -2,6 +2,7 @@ import React from "react";
 import Rule from "./Rule";
 import { v4 as uuidv4 } from 'uuid';
 import {_} from "./JsonUtils";
+import Quesions from "./Questions";
 
 
 class Rules extends React.Component{
@@ -11,16 +12,23 @@ class Rules extends React.Component{
         this.handleRuleDelete = this.handleRuleDelete.bind(this);
         this.handleSaveRule = this.handleSaveRule.bind(this);
         this.applyRule = this.applyRule.bind(this);
+        this.questionsSelected = this.questionsSelected.bind(this);
         this.rulesList = [];
+        
+        this.state = {savedRules:[],
+            rightPaneValue:"Hello World",leftPaneValue:"Add json to test",schema:{}};
+    }
+
+    componentDidMount(){
         let key = uuidv4();
-        this.state = {rules:[<Rule key={key} id={key} saveRule={this.handleSaveRule} 
-            deleteRule={this.handleRuleDelete}/>],savedRules:[],rightPaneValue:"Hello World",leftPaneValue:"Add json to test"};
+        this.setState({rules:[<Rule key={key} id={key} saveRule={this.handleSaveRule} 
+            deleteRule={this.handleRuleDelete} schema={this.state.schema}/>]})
     }
 
     handleRuleAdd(e){
         let key = uuidv4();
         this.setState({
-            rules: [...this.state.rules, <Rule key={key} id={key} saveRule={this.handleSaveRule} deleteRule={this.handleRuleDelete}/>],
+            rules: [...this.state.rules, <Rule key={key} id={key} schema={this.state.schema} saveRule={this.handleSaveRule} deleteRule={this.handleRuleDelete}/>],
           });
     }
 
@@ -54,7 +62,20 @@ class Rules extends React.Component{
         this.setState({rightPaneValue:JSON.stringify(mappedValue)});
     }
 
-    
+    questionsSelected(json){
+        console.log("I am here");
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(json)
+        };
+        fetch('http://localhost:8080/api/v1/schema', requestOptions)
+            .then(response => console.log(response));
+        this.setState({schema:json});
+        let e = new CustomEvent("questionSelected",{detail:{data:json}});
+        // console.log(JSON.stringify(e.isTrusted));
+        document.dispatchEvent(e);
+    }
 /**
  * 
  * @param {*} ruleToDelete 
@@ -72,6 +93,7 @@ class Rules extends React.Component{
     render(){
         return (
             <div>
+                <Quesions callback={this.questionsSelected}/>
                 <button name='add' className='add_button' onClick={this.handleRuleAdd}>Add</button>
                 <div className='rule_row'>
                     {this.state.rules}

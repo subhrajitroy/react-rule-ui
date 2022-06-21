@@ -10,6 +10,7 @@ class Rule extends React.Component{
         this.handleSuggestionSelected = this.handleSuggestionSelected.bind(this)
         this.id = this.props.id;
         this.rule = {"id":this.id};
+        console.log("Schema is " + JSON.stringify(this.props.schema));
     }
 
     handleDeleteRule(e){
@@ -32,7 +33,7 @@ class Rule extends React.Component{
         return (
             <div className='rule'>
                 <div>
-                    <Autocomplete value="Type here" position={"left"} callback={this.handleSuggestionSelected}/>
+                    <Autocomplete schema={this.props.schema} value="Type here" position={"left"} callback={this.handleSuggestionSelected}/>
                     </div>
                         <div>
                             <select name='operators' id='operators'>
